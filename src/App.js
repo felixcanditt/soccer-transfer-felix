@@ -1,147 +1,26 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
+import PlayerForm from './PlayerForm';
+import PlayerCard from './PlayerCard';
 
 function App() {
-  const initialPlayerState = {
-    name: '',
-    price: '',
-    free_transfer: false,
-    club: '',
-    position: '',
-    email: ''
-  };
+  const [players, setPlayers] = useState([]);
 
-  const [player, setPlayer] = useState(initialPlayerState);
-
-  function updatePlayer(event) {
-    const fieldName = event.target.name;
-    let fieldValue = event.target.value;
-
-    if (event.target.type === 'checkbox') {
-      fieldValue = event.target.checked;
-    }
-    //   wir brauchen if weil checkbox standardmäßig keinen Wert übermittelt wenn sie nicht geklickt wird
-    //   hier wird definiert, dass sie auf jeden Fall einen Wert übermittelt
-    // und zwar den Zustand der checkbox (checked oder nicht)
-
-    setPlayer({ ...player, [fieldName]: fieldValue });
-  }
-
-  function addPlayer(event) {
-    event.preventDefault();
-    console.log(player, 'State');
+  function addPlayer(player) {
+    setPlayers([...players, player]);
   }
 
   return (
     <main>
       <h1>Add a new player</h1>
-
-      <Formular onSubmit={addPlayer}>
-        <label htmlFor="name">Player Name</label>
-        <input
-          type="text"
-          name="name"
-          onChange={updatePlayer}
-          value={player.name} //vorbelegt falls es Wert gibt
-        />
-
-        <label htmlFor="price">Transfer Price (in €)</label>
-        <input
-          type="name"
-          name="price"
-          onChange={updatePlayer}
-          value={player.price} //vorbelegt falls es Wert gibt
-          disabled={player.free_transfer}
-          //wenn die checkbox free_transfer checked (true) ist, ist disabled true
-        />
-        <label>
-          <input
-            type="checkbox"
-            name="free_transfer"
-            onChange={updatePlayer}
-            value={player.free_transfer}
-            disabled={player.price !== ''}
-            // disabled wenn ein Preis eingegeben wurde, also kein leerer String ist
-          />
-          <span>Free transfer?</span>
-        </label>
-
-        <label htmlFor="club">Club</label>
-        <select
-          name="club"
-          id="club"
-          onChange={updatePlayer}
-          value={player.club}
-        >
-          <option value="">Please select</option>
-          <option value="fc_bayern">FC Bayern</option>
-          <option value="sv_werder">SV Werder Bremen</option>
-          <option value="vfb_stuttgart">VFB Stuttgart</option>
-          <option value="rb_leipzig">RB Leipzig</option>
-          <option value="hansa_rostock">Hansa Rostock</option>
-          <option value="eintracht_frankfurt">Eintracht Frankfurt</option>
-          <option value="fc_st_pauli">FC St. Pauli</option>
-        </select>
-
-        <fieldset>
-          <legend>Position</legend>
-          <label>
-            <input
-              type="radio"
-              name="position"
-              value="striker"
-              onChange={updatePlayer}
-              checked={player.position === 'striker'}
-            />
-            Striker
-          </label>
-
-          <label htmlFor="">
-            <input
-              type="radio"
-              name="position"
-              value="midfield"
-              onChange={updatePlayer}
-              checked={player.position === 'midfield'}
-            />
-            Midfield
-          </label>
-
-          <label htmlFor="">
-            <input
-              type="radio"
-              name="position"
-              value="defence"
-              onChange={updatePlayer}
-              checked={player.position === 'defence'}
-            />
-            Defence
-          </label>
-
-          <label htmlFor="">
-            <input
-              type="radio"
-              name="position"
-              value="goalie"
-              onChange={updatePlayer}
-              checked={player.position === 'goalie'}
-            />
-            Goalie
-          </label>
-        </fieldset>
-        <label htmlFor="email">Contact Email</label>
-        <input
-          type="text"
-          name="email"
-          onChange={updatePlayer}
-          value={player.email}
-        />
-
-        <Button isPrimary>Add</Button>
-        <Button type="reset" onClick={() => setPlayer(initialPlayerState)}>
-          Cancel
-        </Button>
-      </Formular>
+      <PlayerForm onAddPlayer={addPlayer} />
+      <Grid>
+        <Players>
+          {players.map((player) => (
+            <PlayerCard player={player} />
+          ))}
+        </Players>
+      </Grid>
     </main>
   );
 }
@@ -194,4 +73,19 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: ${(props) => (props.isPrimary ? '600' : '100')};
   font-size: 1.2rem;
+`;
+
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  @media (min-width: 576px) {
+    grid-template-columns: 1fr 2fr;
+  }
+`;
+
+const Players = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 `;
