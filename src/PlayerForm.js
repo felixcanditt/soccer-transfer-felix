@@ -9,12 +9,12 @@ export default function PlayerForm({ onAddPlayer }) {
     club: '',
     position: '',
     email: '',
-    skills: ''
+    skills: '' // NEU
   };
 
   const [player, setPlayer] = useState(initialPlayerState);
-  const [tag, setTag] = useState('');
-  const [skills, setSkills] = useState([]);
+  const [tag, setTag] = useState(''); // NEU
+  const [skills, setSkills] = useState([]); // NEU
 
   // useEffect: wenn sich skills aktualisiert, aktualisiert sich automatisch auch player
   useEffect(() => {
