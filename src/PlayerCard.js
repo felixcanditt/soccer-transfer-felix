@@ -26,6 +26,7 @@ export default function PlayerCard({ player }) {
   );
 }
 
+// test
 // const [bookmarkedChars, setBookmarkedChars] = useState([]);
 
 //   function placeIntoBookmarked(currywurst) {
