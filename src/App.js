@@ -3,6 +3,10 @@ import styled from 'styled-components/macro';
 import PlayerForm from './PlayerForm';
 import PlayerCard from './PlayerCard';
 import { addToLocalStorage, loadFromLocalStorage } from './localStorage';
+import HeaderNavigation from './HeaderNavigation';
+import { Switch, Route } from 'react-router-dom';
+import ShoppingCart from './ShoppingCart';
+import RenderPlayerCards from './RenderPlayerCards';
 
 function App() {
   // wenn etwas gespeichert ist, lade das, sonst leeres Array
@@ -19,18 +23,64 @@ function App() {
     setPlayers([...players, player]);
   }
 
+  // const blablabla = () => {}
+
+  function FootballPlayerTrafficking() {
+    return (
+      <>
+        <h1>Add a new player</h1>
+        <PlayerForm onAddPlayer={addPlayer} />
+        <Grid>
+          <Players>
+            {players.map((player) => (
+              <PlayerCard player={player} />
+            ))}
+          </Players>
+        </Grid>
+        )
+      </>
+    );
+  }
+
+  // function bratwurst() {
+  //   <Grid>
+  //   <Players>
+  //     {players.map((player) => (
+  //       <PlayerCard player={player} />
+  //     ))}
+  //   </Players>
+  // </Grid>
+  // }
+
+  // )
+
   return (
-    <main>
-      <h1>Add a new player</h1>
-      <PlayerForm onAddPlayer={addPlayer} />
-      <Grid>
-        <Players>
-          {players.map((player) => (
-            <PlayerCard player={player} />
-          ))}
-        </Players>
-      </Grid>
-    </main>
+    <>
+      <HeaderNavigation />
+      <main>
+        <Switch>
+          <Route exact path="/">
+            <FootballPlayerTrafficking />
+          </Route>
+          <Route path="/players">
+            <RenderPlayerCards players={players} />
+          </Route>
+          <Route path="/shopping-cart">
+            <ShoppingCart />
+          </Route>
+
+          <h1>Add a new player</h1>
+          <PlayerForm onAddPlayer={addPlayer} />
+          <Grid>
+            <Players>
+              {players.map((player) => (
+                <PlayerCard player={player} />
+              ))}
+            </Players>
+          </Grid>
+        </Switch>
+      </main>
+    </>
   );
 }
 

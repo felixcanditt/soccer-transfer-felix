@@ -1,9 +1,22 @@
 import styled from 'styled-components/macro';
+//import shoppingCart from './images/shopping-cart.svg';
+import { useState } from 'react';
 
 export default function PlayerCard({ player }) {
+  const [playersToBuy, setPlayersToBuy] = useState();
+  console.log(playersToBuy);
+
+  function placeIntoShoppingCart() {
+    // const playerToAdd = characters.find(
+    //   (character) => character.name === currywurst.name
+    // );
+    setPlayersToBuy([...playersToBuy, player]);
+  }
+
   return (
     <Card>
       <h3>{player.name}</h3>
+      <button onClick={placeIntoShoppingCart}>kaufen</button>
       <p>{player.price}</p>
       <p>{player.club}</p>
       <p>{player.position}</p>
@@ -12,6 +25,36 @@ export default function PlayerCard({ player }) {
     </Card>
   );
 }
+
+// const [bookmarkedChars, setBookmarkedChars] = useState([]);
+
+//   function placeIntoBookmarked(currywurst) {
+//     const characterToAdd = characters.find(
+//       (character) => character.name === currywurst.name
+//     );
+//     setBookmarkedChars([...bookmarkedChars, characterToAdd]);
+//   }
+
+// function placeIntoBookmarked(currywurst) {
+//   const characterToAdd = characters.find(
+//     (character) => character.name === currywurst.name
+//   );
+//   setBookmarkedChars([...bookmarkedChars, characterToAdd]);
+// }
+
+// function Home() {
+//   return (
+// <>
+//    <Headline>Get schwifty!</Headline>
+//    <Filterbuttons>
+//    <button onClick={showAllCharacters}>Show all characters</button>
+//    <button onClick={showOnlyAliens}>Show only aliens</button>
+//  </Filterbuttons>
+//  <MainSection>
+//    {charactersOnScreen(viewOnlyAliens ? onlyAliens : characters)}
+
+//  </MainSection>
+// </> )}
 
 const Card = styled.article`
   background: hotpink;
