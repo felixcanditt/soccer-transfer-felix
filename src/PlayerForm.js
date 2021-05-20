@@ -32,7 +32,7 @@ export default function PlayerForm({ onAddPlayer }) {
 
   function updatePlayer(event) {
     const fieldName = event.target.name;
-    let fieldValue = event.target.value.toUpperCase();
+    let fieldValue = event.target.value;
 
     if (event.target.type === 'checkbox') {
       fieldValue = event.target.checked;
