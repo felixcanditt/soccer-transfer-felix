@@ -13,18 +13,35 @@ function App() {
   const [players, setPlayers] = useState(
     loadFromLocalStorage('soccerTransferPlayers') ?? []
   );
+  const [shoppedPlayers, setShoppedPlayers] = useState([]);
+  console.log(shoppedPlayers);
 
   // useEffect: localStorage wird jedes Mal aktualisiert wenn sich players aktualisiert
   useEffect(() => {
     addToLocalStorage('soccerTransferPlayers', players);
   }, [players]);
 
+  // wenn sich shoppedPlayers aktualisiert, aktualisiert sich auch localStorage
+  useEffect(() => {
+    addToLocalStorage('soccerTransferShoppedPlayers', shoppedPlayers);
+  }, [shoppedPlayers]);
+
   function addPlayer(player) {
     setPlayers([...players, player]);
   }
 
-  // const blablabla = () => {}
+  // wenn man auf den kaufen-Button klickt, passiert folgendes:
+  function placeIntoShoppingCart(clickedPlayer) {
+    // fehlt: find etc.
+    //  console.log('hat geklappt');
+    const shoppedPlayer = players.find(
+      (player) => player.name === clickedPlayer.name
+    );
+    setShoppedPlayers([...shoppedPlayers, shoppedPlayer]);
+    addToLocalStorage('soccerTransferShoppedPlayers', shoppedPlayers);
+  }
 
+  // const Football... = () => {} ist gleichbedeutend
   function FootballPlayerTrafficking() {
     return (
       <>
@@ -33,7 +50,10 @@ function App() {
         <Grid>
           <Players>
             {players.map((player) => (
-              <PlayerCard player={player} />
+              <PlayerCard
+                player={player}
+                onPlaceIntoShoppingCart={() => placeIntoShoppingCart()}
+              />
             ))}
           </Players>
         </Grid>
@@ -68,16 +88,6 @@ function App() {
           <Route path="/shopping-cart">
             <ShoppingCart />
           </Route>
-
-          <h1>Add a new player</h1>
-          <PlayerForm onAddPlayer={addPlayer} />
-          <Grid>
-            <Players>
-              {players.map((player) => (
-                <PlayerCard player={player} />
-              ))}
-            </Players>
-          </Grid>
         </Switch>
       </main>
     </>

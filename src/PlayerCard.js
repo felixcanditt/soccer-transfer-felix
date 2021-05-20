@@ -2,21 +2,14 @@ import styled from 'styled-components/macro';
 //import shoppingCart from './images/shopping-cart.svg';
 import { useState } from 'react';
 
-export default function PlayerCard({ player }) {
-  const [playersToBuy, setPlayersToBuy] = useState();
-  console.log(playersToBuy);
-
-  function placeIntoShoppingCart() {
-    // const playerToAdd = characters.find(
-    //   (character) => character.name === currywurst.name
-    // );
-    setPlayersToBuy([...playersToBuy, player]);
-  }
+export default function PlayerCard({ player, onPlaceIntoShoppingCart }) {
+  //const [playersToBuy, setPlayersToBuy] = useState();
+  //console.log(playersToBuy);
 
   return (
     <Card>
       <h3>{player.name}</h3>
-      <button onClick={placeIntoShoppingCart}>kaufen</button>
+      <button onClick={onPlaceIntoShoppingCart}>kaufen</button>
       <p>{player.price}</p>
       <p>{player.club}</p>
       <p>{player.position}</p>
@@ -25,6 +18,7 @@ export default function PlayerCard({ player }) {
     </Card>
   );
 }
+//onSubmit = onPlaceInto
 
 // const [bookmarkedChars, setBookmarkedChars] = useState([]);
 
