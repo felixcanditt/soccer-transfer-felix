@@ -13,8 +13,9 @@ function App() {
   const [players, setPlayers] = useState(
     loadFromLocalStorage('soccerTransferPlayers') ?? []
   );
-  const [shoppedPlayers, setShoppedPlayers] = useState([]);
-  console.log(shoppedPlayers);
+  const [shoppedPlayers, setShoppedPlayers] = useState(
+    loadFromLocalStorage('soccerTransferShoppedPlayers') ?? []
+  );
 
   // useEffect: localStorage wird jedes Mal aktualisiert wenn sich players aktualisiert
   useEffect(() => {
@@ -31,14 +32,14 @@ function App() {
   }
 
   // wenn man auf den kaufen-Button klickt, passiert folgendes:
-  function placeIntoShoppingCart(clickedPlayer) {
-    // fehlt: find etc.
-    //  console.log('hat geklappt');
-    const shoppedPlayer = players.find(
-      (player) => player.name === clickedPlayer.name
-    );
+  function placeIntoShoppingCart(event, shoppedPlayer) {
+    // console.log('hat geklappt');
+    // warum kein find?
+    // const shoppedPlayer = players.find(
+    //   (player) => player.name === clickedPlayer.name
+    // );
+    console.log(shoppedPlayer);
     setShoppedPlayers([...shoppedPlayers, shoppedPlayer]);
-    addToLocalStorage('soccerTransferShoppedPlayers', shoppedPlayers);
   }
 
   // const Football... = () => {} ist gleichbedeutend
@@ -49,10 +50,11 @@ function App() {
         <PlayerForm onAddPlayer={addPlayer} />
         <Grid>
           <Players>
-            {players.map((player) => (
+            {players.map((player, index) => (
               <PlayerCard
                 player={player}
-                onPlaceIntoShoppingCart={() => placeIntoShoppingCart()}
+                onPlaceIntoShoppingCart={placeIntoShoppingCart}
+                key={player.name + index}
               />
             ))}
           </Players>

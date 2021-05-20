@@ -56,7 +56,7 @@ export default function PlayerForm({ onAddPlayer }) {
     } else {
       setError(true);
     }
-    console.log(player);
+    //console.log(player);
   }
 
   // ______________ TAGS

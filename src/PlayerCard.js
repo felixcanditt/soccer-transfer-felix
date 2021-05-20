@@ -9,7 +9,13 @@ export default function PlayerCard({ player, onPlaceIntoShoppingCart }) {
   return (
     <Card>
       <h3>{player.name}</h3>
-      <button onClick={onPlaceIntoShoppingCart}>kaufen</button>
+      <button
+        onClick={(event) => {
+          onPlaceIntoShoppingCart(event, player);
+        }}
+      >
+        kaufen
+      </button>
       <p>{player.price}</p>
       <p>{player.club}</p>
       <p>{player.position}</p>
