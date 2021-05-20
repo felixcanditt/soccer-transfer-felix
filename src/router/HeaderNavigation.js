@@ -5,7 +5,7 @@ export default function HeaderNavigation() {
     <header className="header">
       <nav className="navigation">
         <NavLink exact to="/" className="link">
-          Football Player Trafficking
+          Home
         </NavLink>
         <NavLink to="/players" className="link">
           Players

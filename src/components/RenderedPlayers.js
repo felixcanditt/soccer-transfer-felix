@@ -1,18 +1,16 @@
 import styled from 'styled-components/macro';
 import PlayerCard from './PlayerCard';
 
-export default function RenderPlayerCards({
-  players,
-  onPlaceIntoShoppingCart
-}) {
+export default function Rendered({ players, onPlaceIntoShoppingCart }) {
   return (
     <>
       <Grid>
         <Players>
-          {players.map((player) => (
+          {players.map((player, index) => (
             <PlayerCard
               player={player}
               onPlaceIntoShoppingCart={onPlaceIntoShoppingCart}
+              key={index}
             />
           ))}
         </Players>
