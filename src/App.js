@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components/macro';
 import PlayerForm from './PlayerForm';
 import PlayerCard from './PlayerCard';
+import { addToLocalStorage, loadFromLocalStorage } from './localStorage';
 
 function App() {
-  const [players, setPlayers] = useState([]);
+  // wenn etwas gespeichert ist, lade das, sonst leeres Array
+  const [players, setPlayers] = useState(
+    loadFromLocalStorage('soccerTransferPlayers') ?? []
+  );
+
+  // useEffect: localStorage wird jedes Mal aktualisiert wenn sich players aktualisiert
+  useEffect(() => {
+    addToLocalStorage('soccerTransferPlayers', players);
+  }, [players]);
 
   function addPlayer(player) {
     setPlayers([...players, player]);
