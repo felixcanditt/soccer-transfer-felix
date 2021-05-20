@@ -15,6 +15,14 @@ export default function PlayerForm({ onAddPlayer }) {
   const [player, setPlayer] = useState(initialPlayerState);
   const [tag, setTag] = useState(''); // NEU
   const [skills, setSkills] = useState([]); // NEU
+  const [Error, setError] = useState(false);
+
+  const validateName = (player) => player.name.length >= 2;
+  const validateEMail = (player) =>
+    (player.email.includes('@') && player.email.endsWith('.com')) ||
+    player.email.endsWith('.de');
+  const validatePrice = (player) =>
+    (player.price > 0 && !player.free_transfer) || player.free_transfer;
 
   // useEffect: wenn sich skills aktualisiert, aktualisiert sich automatisch auch player
   useEffect(() => {
@@ -24,7 +32,7 @@ export default function PlayerForm({ onAddPlayer }) {
 
   function updatePlayer(event) {
     const fieldName = event.target.name;
-    let fieldValue = event.target.value;
+    let fieldValue = event.target.value.toUpperCase();
 
     if (event.target.type === 'checkbox') {
       fieldValue = event.target.checked;
@@ -38,7 +46,16 @@ export default function PlayerForm({ onAddPlayer }) {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    onAddPlayer(player);
+    if (
+      validateName(player) &&
+      validateEMail(player) &&
+      validatePrice(player)
+    ) {
+      onAddPlayer(player);
+      setError(false);
+    } else {
+      setError(true);
+    }
     console.log(player);
   }
 
@@ -67,12 +84,16 @@ export default function PlayerForm({ onAddPlayer }) {
 
   return (
     <Formular onSubmit={handleFormSubmit}>
+      {Error && <ErrorBox>HALT STOP, SO NICHT!</ErrorBox>}
+
       <label htmlFor="name">Player Name</label>
       <input
         type="text"
         name="name"
         onChange={updatePlayer}
         value={player.name} //vorbelegt falls es Wert gibt
+        // value ist nicht das was im Browser steht, sondern das was im State gespeichert ist
+        // deswegen kann man kleine Buchstaben tippen, State manipulieren sodass sofort Großbuchstaben angezeigt werden
       />
 
       <label htmlFor="price">Transfer Price (in €)</label>
@@ -91,6 +112,7 @@ export default function PlayerForm({ onAddPlayer }) {
           onChange={updatePlayer}
           value={player.free_transfer}
           disabled={player.price !== ''}
+          checked={player.free_transfer}
           // disabled wenn ein Preis eingegeben wurde, also kein leerer String ist
         />
         <span>Free transfer?</span>
@@ -257,4 +279,13 @@ const SkillsContainer = styled.div`
   input {
     padding: 0.5rem;
   }
+`;
+
+const ErrorBox = styled.div`
+  background: red;
+  color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-weight: bold;
 `;
