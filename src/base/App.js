@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import HeaderNavigation from '../router/HeaderNavigation';
-import Home from '../router/Home';
-import ShowOnlyPlayers from '../router/ShowOnlyPlayers';
-import ShoppingCart from '../router/ShoppingCart';
+import HeaderNavigation from '../pages/HeaderNavigation';
+import Home from '../pages/Home';
+import ShowOnlyPlayers from '../pages/ShowOnlyPlayers';
+import ShoppingCart from '../pages/ShoppingCart';
 
-import { addToLocalStorage, loadFromLocalStorage } from './localStorage';
+import { addToLocalStorage, loadFromLocalStorage } from '../lib/localStorage';
 
 function App() {
   const [players, setPlayers] = useState(
@@ -29,6 +29,8 @@ function App() {
   }
 
   function placeIntoShoppingCart(shoppedPlayer) {
+    // kein filter weil Objekt schon bekannt
+    // in früheren Beispielen kannten wir beim Button nur den Namen, nicht das ganze Objekt
     setShoppedPlayers([...shoppedPlayers, shoppedPlayer]);
   }
 
